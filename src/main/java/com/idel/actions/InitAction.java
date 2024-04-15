@@ -5,24 +5,24 @@ import com.idel.entities.*;
 
 import java.util.Random;
 
-public class initAction {
+public class InitAction {
     private Map map;
-    private final int width = 10;
-    private final int height = 5;
+    private final int width;
+    private final int height;
 
-    public void initSpawn() {
-        map = new Map(width, height);
+    public InitAction(Map map) {
+        this.map = map;
+        this.width = map.getWidth();
+        this.height = map.getHeight();
 
         setCreatures();
         setStaticEntities();
         setDirtInEmpty();
-
-        System.out.println(map);
     }
 
     private void setCreatures() {
         Random random = new Random();
-        int numberOfCreatures = (int) (width * height * 0.2);
+        int numberOfCreatures = (int) (width * height * 0.1);
         int x, y;
         for (int i = 0; i < numberOfCreatures; i++) {
             Coordinates coordinates;

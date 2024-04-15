@@ -13,6 +13,6 @@ public class Herbivore extends Creature {
 
     @Override
     public String toString() {
-        return "\uD83D\uDC30";
+        return "\uD83D\uDC2D";
     }
 }

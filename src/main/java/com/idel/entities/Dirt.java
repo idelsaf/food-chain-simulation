@@ -1,4 +1,4 @@
-package com.idel.actions;
+package com.idel.entities;
 
 import com.idel.Coordinates;
 import com.idel.entities.Entity;
