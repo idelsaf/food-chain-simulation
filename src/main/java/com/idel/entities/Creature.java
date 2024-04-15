@@ -1,4 +1,6 @@
-package com.idel;
+package com.idel.entities;
+
+import com.idel.Coordinates;
 
 abstract public class Creature extends Entity {
     int speed = 1;
