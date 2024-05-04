@@ -1,17 +1,43 @@
 package com.idel.entities;
 
 import com.idel.Coordinates;
+import com.idel.PathFinder;
+import com.idel.WorldMap;
+
+import java.util.List;
 
 public class Predator extends Creature {
-    private int damage = 2;
+    private final int damage = 6;
 
     public Predator(Coordinates coordinates) {
         super(coordinates);
     }
 
     @Override
-    public void makeMove() {
+    public boolean makeMove(WorldMap worldMap) {
+        PathFinder pathFinder = new PathFinder(worldMap, this);
+        List<Coordinates> path = pathFinder.findPath();
+        if (path != null && !path.isEmpty()) {
+            if (path.size() == 1) {
+                Creature target = (Creature) worldMap.getEntityByCoordinates(path.getFirst());
+                attack(target, worldMap);
+            } else {
+                move(path.getLast(), worldMap);
+            }
 
+            return true;
+        } else {
+            // stay in the same place or make random move (?)
+            return false;
+        }
+    }
+
+    protected void attack(Creature target, WorldMap worldMap) {
+        target.takeDamage(this.damage, worldMap);
+        replenishHealth();
+        if (target.isDead()) {
+            move(target.getCoordinates(), worldMap);
+        }
     }
 
     @Override
