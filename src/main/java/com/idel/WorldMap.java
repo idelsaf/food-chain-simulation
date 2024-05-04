@@ -1,15 +1,16 @@
 package com.idel;
 
+import com.idel.entities.Dirt;
 import com.idel.entities.Entity;
 
 import java.util.HashMap;
 
-public class Map {
+public class WorldMap {
     private final int width;
     private final int height;
     private HashMap<Coordinates, Entity> entities = new HashMap<>();
 
-    public Map(int width, int height) {
+    public WorldMap(int width, int height) {
         this.width = width;
         this.height = height;
     }
@@ -32,16 +33,24 @@ public class Map {
     }
 
     public void moveEntity(Entity entity, Coordinates newCoordinates) {
-        entities.remove(entity.getCoordinates());
+        Coordinates oldCoordinates = entity.getCoordinates();
+        entities.remove(oldCoordinates);
         setEntity(entity, newCoordinates);
+        setEntity(new Dirt(oldCoordinates), oldCoordinates);
     }
 
-    public void removeEntity(Coordinates coordinates) {
+    public void removeEntity(Entity entity) {
+        Coordinates coordinates = entity.getCoordinates();
         entities.remove(coordinates);
+        setEntity(new Dirt(coordinates), coordinates);
     }
 
     public boolean isCoordinateEmpty(Coordinates coordinates) {
         return !entities.containsKey(coordinates);
+    }
+
+    public boolean isValidMove(Coordinates coordinates) {
+        return getEntityByCoordinates(coordinates).getClass() == Dirt.class;
     }
 
     @Override
